@@ -1,0 +1,56 @@
+﻿@model List<PROG6216_CMCS_POE_.Models.ClaimViewModel>
+
+@{
+    ViewData["Title"] = "Submitted Claims";
+}
+<h3>@ViewData["Title"]</h3>
+<hr/>
+<form>
+    <button asp-action="SubmitClaim" asp-controller="Claim" class="btn btn-primary mb-3">Submit a Claim</button>
+    <table class="table table-responsive table-hover table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th>Claim ID</th>
+                <th>Lecturer ID</th>
+                <th>Date</th>
+                <th>Hours worked</th>
+                <th>hourly rate</th>
+                <th>Total Claim Amount</th>
+                <th>Additional Notes</th>
+                <th>Supporting Documents</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null & Model.Any())
+            {
+                @foreach (var claim in Model)
+                {
+                    <tr>
+                        <td>@claim.ClaimID</td>
+                        <td>@claim.LecturerID</td>
+                        <td>@claim.SubmissionDate.ToString("dd/mm/yyyy")</td>
+                        <td>@claim.HoursWorked</td>
+                        <td>@claim.HourlyRate</td>
+                        <td>@claim.TotalClaimAmount</td>
+                        <td>@claim.AddNotes</td>
+                        <td>@claim.Document</td>
+                    </tr>
+                    <div class="btn-group btn-group-sm">
+                        <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-primary">Edit</a>
+                        <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-success">Approve</a>
+                        <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-danger">Reject</a>
+
+                    </div>
+                }
+            }
+            else{
+                <tr>
+                    <td colspan="8">
+                        <div>No claims to display at the moment. Submit one to see it appear</div>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</form>
