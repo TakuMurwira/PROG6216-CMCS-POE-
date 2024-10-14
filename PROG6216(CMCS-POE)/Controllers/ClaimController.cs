@@ -38,14 +38,51 @@ namespace PROG6216_CMCS_POE_.Controllers
                 }
                 return View(claimList);
             }
-            return View();
+            return View(claimList);
         }
 
         [HttpGet]
-        public IActionResult Create() 
+        public IActionResult SubmitClaim() 
         {
             return View();
         
+        }
+
+        [HttpPost]
+        public IActionResult SubmitClaim(ClaimViewModel claimData)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var claim = new Claim()
+                    {
+                        LecturerID = claimData.LecturerID,
+                        SubmissionDate = claimData.SubmissionDate,
+                        HoursWorked = claimData.HoursWorked,
+                        HourlyRate = claimData.HourlyRate,
+                        TotalClaimAmount = claimData.TotalClaimAmount,
+                        AddNotes = claimData.AddNotes,
+                        Document = claimData.Document,
+                    };
+
+                    _context.Claims.Add(claim);
+                    _context.SaveChanges();
+                    TempData["successMessage"] = "Claim captured successfully";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["errorMessage"] = "Claim entries not valid";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["errorMessage"] = ex.Message;
+                return View();
+                throw;
+            }
         }
 
         

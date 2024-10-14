@@ -2,9 +2,26 @@
 
 @{
     ViewData["Title"] = "Submitted Claims";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
 }
+
 <h3>@ViewData["Title"]</h3>
-<hr/>
+<hr />
+@if (!string.IsNullOrWhiteSpace(@successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
+else if (!string.IsNullOrWhiteSpace(@errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error!</strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
 <form>
     <button asp-action="SubmitClaim" asp-controller="Claim" class="btn btn-primary mb-3">Submit a Claim</button>
     <table class="table table-responsive table-hover table-bordered">
@@ -34,16 +51,18 @@
                         <td>@claim.TotalClaimAmount</td>
                         <td>@claim.AddNotes</td>
                         <td>@claim.Document</td>
-                    </tr>
-                    <div class="btn-group btn-group-sm">
-                        <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-primary">Edit</a>
-                        <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-success">Approve</a>
-                        <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-danger">Reject</a>
+                        <div class="btn-group btn-group-sm">
+                            <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-success">Approve</a>
+                            <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-danger">Reject</a>
 
-                    </div>
+                        </div>
+                    </tr>
+                    
                 }
             }
-            else{
+            else
+            {
                 <tr>
                     <td colspan="8">
                         <div>No claims to display at the moment. Submit one to see it appear</div>
