@@ -11,7 +11,7 @@
 @if (!string.IsNullOrWhiteSpace(@successMessage))
 {
     <div class="alert alert-success">
-        <strong>Success!</strong>@successMessage
+        <strong>Success! </strong>@successMessage
         <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
     </div>
 }
@@ -22,56 +22,109 @@ else if (!string.IsNullOrWhiteSpace(@errorMessage))
         <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
     </div>
 }
-<form>
-    <button asp-action="SubmitClaim" asp-controller="Claim" class="btn btn-primary mb-3">Submit a Claim</button>
-    <table class="table table-responsive table-hover table-bordered">
-        <thead>
-            <tr class="table-active">
-                <th>Claim ID</th>
-                <th>Lecturer ID</th>
-                <th>Date</th>
-                <th>Hours worked</th>
-                <th>Hourly rate</th>
-                <th>Total Claim Amount</th>
-                <th>Additional Notes</th>
-                <th>Supporting Documents</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null & Model.Any())
-            {
-                @foreach (var claim in Model)
-                {
-                    <tr>
-                        <td>@claim.ClaimID</td>
-                        <td>@claim.LecturerID</td>
-                        <td>@claim.SubmissionDate.ToString("dd/MM/yyyy")</td>
-                        <td>@claim.HoursWorked</td>
-                        <td>@claim.HourlyRate</td>
-                        <td>@claim.TotalClaimAmount</td>
-                        <td>@claim.AddNotes</td>
-                        <td>@claim.Document</td>
-                        <td>
-                            <div class="btn-group btn-group-sm">
-                                <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-primary">View</a>
-                                <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-success">Approve</a>
-                                <a asp-controller="Claim" asp-action="edit" asp-route-id="@claim.ClaimID" class="btn btn-danger">Reject</a>
-                            </div>
-                        </td>
-                    </tr>
 
-                }
-            }
-            else
+<a asp-action="SubmitClaim" asp-controller="Claim" class="btn btn-primary mb-3">Submit a Claim</a>
+
+
+
+<table class="table table-responsive table-hover table-bordered">
+    <thead>
+        <tr class="table-active">
+            <th>Claim ID</th>
+            <th>Lecturer ID</th>
+            <th>Date</th>
+            <th>Hours worked</th>
+            <th>Hourly rate</th>
+            <th>Total Claim Amount</th>
+            <th>Additional Notes</th>
+            <th>Supporting Documents</th>
+            <th>Claim Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var claim in Model)
             {
                 <tr>
-                    <td colspan="9">
-                        <div>No claims to display at the moment. Submit one to see it appear</div>
+                    <td class="text-center">@claim.ClaimID</td>
+                    <td class="text-center">@claim.LecturerID</td>
+                    <td class="text-center">@claim.SubmissionDate.ToString("dd/MM/yyyy")</td>
+                    <td class="text-center">@claim.HoursWorked</td>
+                    <td class="text-end">@claim.HourlyRate</td>
+                    <td class="text-end">@claim.TotalClaimAmount</td>
+                    <td>@claim.AddNotes</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(claim.DocumentNames))
+                        {
+                            var documentNames = claim.DocumentNames.Split(", ");
+                            <ul>
+                                @foreach (var docName in documentNames)
+                                {
+                                    <li>@docName</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>No documents uploaded</span>
+                        }
+                    </td>
+                    <td class="text-center">@claim.ClaimStatus</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <!-- View Button triggers the modal -->
+                            <button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#viewClaimModal"
+                                    onclick="populateModal(@claim.ClaimID, '@claim.LecturerID', '@claim.SubmissionDate.ToString("dd/MM/yyyy")',
+                                                          @claim.HoursWorked, @claim.HourlyRate, @claim.TotalClaimAmount, '@claim.AddNotes',
+                                                          '@claim.DocumentNames')">
+                                View
+                            </button>
+                            <a asp-controller="Claim" asp-action="Approve" asp-route-id="@claim.ClaimID" class="btn btn-success mx-1">Approve</a>
+                            <a asp-controller="Claim" asp-action="Reject" asp-route-id="@claim.ClaimID" class="btn btn-danger mx-1">Reject</a>
+                        </div>
                     </td>
                 </tr>
-
             }
-        </tbody>
-    </table>
-</form>
+        }
+        else
+        {
+            <tr>
+                <td colspan="9">
+                    <div>No claims to display at the moment. Submit one to see it appear</div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<!-- Bootstrap Modal for Viewing Claim -->
+<div class="modal fade" id="viewClaimModal" tabindex="-1" aria-labelledby="viewClaimModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewClaimModalLabel">Claim Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Claim ID:</strong> <span id="modalClaimID"></span></p>
+                <p><strong>Lecturer ID:</strong> <span id="modalLecturerID"></span></p>
+                <p><strong>Date:</strong> <span id="modalSubmissionDate"></span></p>
+                <p><strong>Hours Worked:</strong> <span id="modalHoursWorked"></span></p>
+                <p><strong>Hourly Rate:</strong> <span id="modalHourlyRate"></span></p>
+                <p><strong>Total Claim Amount:</strong> <span id="modalTotalClaimAmount"></span></p>
+                <p><strong>Additional Notes:</strong> <span id="modalAddNotes"></span></p>
+                <p><strong>Supporting Documents:</strong></p>
+                <ul id="modalDocumentNames"></ul> <!-- List for supporting documents -->
+            </div>
+            <div class="modal-footer">
+                <a id="approveButton" asp-controller="Claim" asp-action="Approve" class="btn btn-success">Approve</a>
+                <a id="rejectButton" asp-controller="Claim" asp-action="Reject" class="btn btn-danger">Reject</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

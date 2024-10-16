@@ -27,5 +27,11 @@ namespace PROG6216_CMCS_POE_.Models.DBEntities
         public string? AddNotes { get; set; }
 
         public byte[]? Document { get; set; }
+        public string? DocumentNames { get; set; }
+        // Store document names as comma-separated values
+
+        [Required]
+        public string ClaimStatus { get; set; } = "Pending"; // Default value set to "Pending"
+
     }
 }

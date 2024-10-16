@@ -28,5 +28,11 @@ namespace PROG6216_CMCS_POE_.Models
 
         [DisplayName("Supporting Documents")]
         public byte[]? Document { get; set; }
+
+        [DisplayName("Supporting Document names")]
+        public string? DocumentNames { get; set; }
+        public string ClaimStatus { get; set; } = "Pending"; // Default status
+
+
     }
 }
