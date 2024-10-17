@@ -30,13 +30,13 @@ else if (!string.IsNullOrWhiteSpace(@errorMessage))
 <table class="table table-responsive table-hover table-bordered">
     <thead>
         <tr class="table-active">
-            <th>Claim ID</th>
+            <!--th>Claim ID</th-->
             <th>Lecturer ID</th>
-            <th>Date</th>
+            <!--th>Date</!th-->
             <th>Hours worked</th>
             <th>Hourly rate</th>
             <th>Total Claim Amount</th>
-            <th>Additional Notes</th>
+            <!--th>Additional Notes<th-->
             <th>Supporting Documents</th>
             <th>Claim Status</th>
             <th>Action</th>
@@ -48,13 +48,13 @@ else if (!string.IsNullOrWhiteSpace(@errorMessage))
             @foreach (var claim in Model)
             {
                 <tr>
-                    <td class="text-center">@claim.ClaimID</td>
+                    <!--td class="text-center">@claim.ClaimID</td-->
                     <td class="text-center">@claim.LecturerID</td>
-                    <td class="text-center">@claim.SubmissionDate.ToString("dd/MM/yyyy")</td>
+                    <!--td class="text-center">@claim.SubmissionDate.ToString("dd/MM/yyyy")</td-->
                     <td class="text-center">@claim.HoursWorked</td>
                     <td class="text-end">@claim.HourlyRate</td>
                     <td class="text-end">@claim.TotalClaimAmount</td>
-                    <td>@claim.AddNotes</td>
+                    <!--td>@claim.AddNotes</td-->
                     <td>
                         @if (!string.IsNullOrEmpty(claim.DocumentNames))
                         {
