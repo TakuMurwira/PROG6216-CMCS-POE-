@@ -31,7 +31,10 @@ namespace PROG6216_CMCS_POE_.Models
 
         [DisplayName("Supporting Document names")]
         public string? DocumentNames { get; set; }
-        public string ClaimStatus { get; set; } = "Pending"; // Default status
+        
+        [Required]
+        [DefaultValue("Pending")]  // Add this line to set default value
+        public string ClaimStatus { get; set; } = "Pending"; // Initialize with "Pending"
 
 
     }
