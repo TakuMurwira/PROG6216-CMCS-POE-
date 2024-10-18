@@ -79,6 +79,20 @@ namespace PROG6216_CMCS_POE_.Controllers
         {
             try
             {
+                // Validate for negative values
+                if (claimData.HoursWorked < 0 || claimData.HourlyRate < 0)
+                {
+                    TempData["errorMessage"] = "Hours worked and hourly rate cannot be negative.";
+                    return View(claimData);
+                }
+
+                // Validate for past dates
+                if (claimData.SubmissionDate > DateTime.Today)
+                {
+                    TempData["errorMessage"] = "Submission date cannot be in the Future.";
+                    return View(claimData);
+                }
+
                 if (ModelState.IsValid)
                 {
                     var claim = new Claim
@@ -89,24 +103,33 @@ namespace PROG6216_CMCS_POE_.Controllers
                         HourlyRate = claimData.HourlyRate,
                         TotalClaimAmount = claimData.TotalClaimAmount,
                         AddNotes = claimData.AddNotes,
-                        ClaimStatus = "Pending" // Set default status to Pending
+                        ClaimStatus = "Pending"
                     };
 
-                    // Store file names
                     var documentNames = new List<string>();
                     foreach (var file in files)
                     {
-                        // Example of validation: check file size (2MB limit)
                         if (file.Length > 0 && file.Length <= 2 * 1024 * 1024)
                         {
-                            // Save file or do processing here
-                            documentNames.Add(file.FileName);
+                            var extension = Path.GetExtension(file.FileName).ToLower();
+                            if (extension == ".docx" || extension == ".pdf" || extension == ".xlsx")
+                            {
+                                documentNames.Add(file.FileName);
+                            }
+                            else
+                            {
+                                TempData["errorMessage"] = "Only .docx, .pdf, and .xlsx files are allowed.";
+                                return View(claimData);
+                            }
+                        }
+                        else
+                        {
+                            TempData["errorMessage"] = "File size must be less than 2MB.";
+                            return View(claimData);
                         }
                     }
 
-                    // Join the file names with commas and store them in DocumentNames property
                     claim.DocumentNames = string.Join(", ", documentNames);
-
                     _context.Claims.Add(claim);
                     _context.SaveChanges();
 
@@ -116,15 +139,16 @@ namespace PROG6216_CMCS_POE_.Controllers
                 else
                 {
                     TempData["errorMessage"] = "Claim entries are not valid";
-                    return View();
+                    return View(claimData);
                 }
             }
             catch (Exception ex)
             {
                 TempData["errorMessage"] = ex.Message;
-                return View();
+                return View(claimData);
             }
         }
+
 
         public IActionResult Approve(int id)
         {
