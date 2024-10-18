@@ -8,7 +8,7 @@
 5. **Approving or Rejecting Claims**
 6. **Error Messages and Validation**
 
-================================================================================================
+===========================================================================
 
 ### 1. **Home Page**
 
@@ -19,7 +19,7 @@ The Home page provides an overview of the website. From here, you can navigate t
 - Navigation bar with links to submit new claims and view claims.
 - Quick access to submit claims via the “Submit a Claim” button.
 
-================================================================================================
+===========================================================================
 
 ### 2. **Submitting a Claim**
 
@@ -45,7 +45,7 @@ The system will display error messages if:
 **Confirmation:**  
 Once the claim is submitted successfully, you will see a success message.
 
-================================================================================================
+===========================================================================
 
 ### 3. **Viewing Claims (Lecturer Claims)**
 
@@ -68,7 +68,7 @@ The **Lecturer Claims** page allows lecturers to view all the claims they have s
 **Note:**  
 Lecturers can **view** their claims, but cannot approve or reject claims. Only administrators can modify claim statuses.
 
-================================================================================================
+===========================================================================
 
 ### 4. **Viewing Claim Details (Bootstrap Modal)**
 
@@ -79,7 +79,7 @@ The system provides a way to view the details of a claim in more depth using a B
 1. On the **Lecturer Claims** page, each claim has a "View Details" button.
 2. Clicking this button will open a modal pop-up with detailed information about the claim.
 
-================================================================================================
+===========================================================================
 
 ### 5. **Approving or Rejecting Claims**
 
@@ -92,7 +92,7 @@ Administrators have the ability to approve or reject claims from the **Lecturer 
 **Current State:**  
 This feature is restricted for now, and lecturers can only **view** their claims without modifying the status.
 
-================================================================================================
+===========================================================================
 ### 6. **Error Messages and Validation**
 
 The system includes various validation checks to ensure the data entered is correct:
@@ -103,7 +103,7 @@ The system includes various validation checks to ensure the data entered is corr
 - **File Size**: Files larger than 2MB are not allowed. If a file exceeds the size limit, you will see an error message.
 - **Form Validation**: All fields must be completed correctly. If any required fields are left empty or incorrectly filled, an error message will be shown.
 
-================================================================================================
+===========================================================================
 
 ### **Conclusion:**
 
