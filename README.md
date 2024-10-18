@@ -109,6 +109,7 @@ The system includes various validation checks to ensure the data entered is corr
 
 This guide provides a comprehensive overview of how to navigate the website, submit claims, view your claims, and understand validation rules. If you encounter any issues, please ensure that all inputs comply with the validation requirements, and you will receive helpful feedback messages in case of errors.
 
+### **REFERENCES:**
 https://learn.microsoft.com/en-us/ef/core/
 https://youtu.be/gNvuZTg0H1k?si=9c2l-a-wZ1GZed8T
 OpenAI.2024.Chat-GPT(Version3.5).[Large language mode]. available at: 
