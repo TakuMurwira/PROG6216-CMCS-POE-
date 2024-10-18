@@ -1,0 +1,87 @@
+﻿@model List<PROG6216_CMCS_POE_.Models.ClaimViewModel>
+
+@{
+    ViewData["Title"] = "Lecturer Claims";
+}
+
+<h3>@ViewData["Title"]</h3>
+<hr />
+<a asp-action="SubmitClaim" asp-controller="Claim" class="btn btn-primary mb-3">Submit a Claim</a>
+<table class="table table-responsive table-hover table-bordered">
+    <thead>
+        <tr class="table-active">
+            <th>Claim ID</th>
+            <th>Date Submitted</th>
+            <th>Hours Worked</th>
+            <th>Hourly Rate</th>
+            <th>Total Claim Amount</th>
+            <th>Claim Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td class="text-center">@claim.ClaimID</td>
+                    <td class="text-center">@claim.SubmissionDate.ToString("dd/MM/yyyy")</td>
+                    <td class="text-center">@claim.HoursWorked</td>
+                    <td class="text-center">R @claim.HourlyRate</td>
+                    <td class="text-end">R @claim.TotalClaimAmount</td>
+                    <td>
+                        <span class="badge
+                            @(claim.ClaimStatus == "Pending" ? "bg-warning" :
+                              claim.ClaimStatus == "Approved" ? "bg-success" : "bg-danger")">
+                            @claim.ClaimStatus
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#viewClaimModal"
+                                    onclick="populateModal(@claim.ClaimID, '@claim.LecturerID', '@claim.SubmissionDate.ToString("dd/MM/yyyy")',
+                                                          @claim.HoursWorked, @claim.HourlyRate, @claim.TotalClaimAmount, '@claim.AddNotes',
+                                                          '@claim.DocumentNames', '@claim.ClaimStatus')">
+                                View
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">No claims to display.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Bootstrap Modal for Viewing Claim Details -->
+<div class="modal fade" id="viewClaimModal" tabindex="-1" aria-labelledby="viewClaimModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewClaimModalLabel">Claim Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Claim ID:</strong> <span id="modalClaimID"></span></p>
+                <p><strong>Lecturer ID:</strong> <span id="modalLecturerID"></span></p>
+                <p><strong>Date:</strong> <span id="modalSubmissionDate"></span></p>
+                <p><strong>Hours Worked:</strong> <span id="modalHoursWorked"></span></p>
+                <p><strong>Hourly Rate:</strong> <span id="modalHourlyRate"></span></p>
+                <p><strong>Total Claim Amount:</strong> <span id="modalTotalClaimAmount"></span></p>
+                <p><strong>Additional Notes:</strong> <span id="modalAddNotes"></span></p>
+                <p><strong>Supporting Documents:</strong></p>
+                <ul id="modalDocumentNames"></ul>
+                <p><strong>Claim Status:</strong> <span id="modalClaimStatus"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

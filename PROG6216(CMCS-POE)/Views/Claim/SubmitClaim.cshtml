@@ -1,7 +1,7 @@
 ﻿@model PROG6216_CMCS_POE_.Models.ClaimViewModel
 
 @{
-    ViewData["Title"] = "Submitted Claims";
+    ViewData["Title"] = "Submit Claims";
     var errorMessage = TempData["errorMessage"]?.ToString();
 }
 
@@ -60,6 +60,7 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
+
 @section Scripts{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial"); 

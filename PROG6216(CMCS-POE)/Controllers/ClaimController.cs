@@ -2,6 +2,8 @@
 using PROG6216_CMCS_POE_.DataAccesLayer;
 using PROG6216_CMCS_POE_.Models;
 using PROG6216_CMCS_POE_.Models.DBEntities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PROG6216_CMCS_POE_.Controllers
 {
@@ -13,39 +15,63 @@ namespace PROG6216_CMCS_POE_.Controllers
         {
             this._context = context;
         }
+
         [HttpGet]
         public IActionResult Index()
         {
             // Fetch the updated claims list from the database
-            var claims = _context.Claims.ToList();
+            var claims = _context.Claims
+                .OrderBy(c => c.ClaimStatus == "Pending" ? 0 : 1) // Pending claims first
+                .ThenByDescending(c => c.SubmissionDate)          // Then by submission date
+                .ToList();
 
             // Map to the ViewModel if necessary
-            List<ClaimViewModel> claimList = new List<ClaimViewModel>();
-            foreach (var claim in claims)
+            List<ClaimViewModel> claimList = claims.Select(claim => new ClaimViewModel()
             {
-                var claimViewModel = new ClaimViewModel()
-                {
-                    ClaimID = claim.ClaimID,
-                    LecturerID = claim.LecturerID,
-                    SubmissionDate = claim.SubmissionDate,
-                    HoursWorked = claim.HoursWorked,
-                    HourlyRate = claim.HourlyRate,
-                    TotalClaimAmount = claim.TotalClaimAmount,
-                    AddNotes = claim.AddNotes,
-                    Document = claim.Document,
-                    ClaimStatus = claim.ClaimStatus,
-                };
-                claimList.Add(claimViewModel);
-            }
+                ClaimID = claim.ClaimID,
+                LecturerID = claim.LecturerID,
+                SubmissionDate = claim.SubmissionDate,
+                HoursWorked = claim.HoursWorked,
+                HourlyRate = claim.HourlyRate,
+                TotalClaimAmount = claim.TotalClaimAmount,
+                AddNotes = claim.AddNotes,
+                DocumentNames = claim.DocumentNames,
+                ClaimStatus = claim.ClaimStatus,
+            }).ToList();
 
             return View(claimList);
         }
 
         [HttpGet]
-        public IActionResult SubmitClaim() 
+        public IActionResult LecturerClaims()
+        {
+            // Fetch all claims without filtering
+            var claims = _context.Claims
+                .OrderBy(c => c.ClaimStatus == "Pending" ? 0 : 1) // Pending claims first
+                .ThenByDescending(c => c.SubmissionDate)          // Then by submission date
+                .ToList();
+
+            // Map to the ViewModel
+            List<ClaimViewModel> claimList = claims.Select(claim => new ClaimViewModel()
+            {
+                ClaimID = claim.ClaimID,
+                LecturerID = claim.LecturerID,
+                SubmissionDate = claim.SubmissionDate,
+                HoursWorked = claim.HoursWorked,
+                HourlyRate = claim.HourlyRate,
+                TotalClaimAmount = claim.TotalClaimAmount,
+                AddNotes = claim.AddNotes,
+                DocumentNames = claim.DocumentNames,
+                ClaimStatus = claim.ClaimStatus,
+            }).ToList();
+
+            return View(claimList); // Return to the LecturerClaims view
+        }
+
+        [HttpGet]
+        public IActionResult SubmitClaim()
         {
             return View();
-        
         }
 
         [HttpPost]
@@ -63,6 +89,7 @@ namespace PROG6216_CMCS_POE_.Controllers
                         HourlyRate = claimData.HourlyRate,
                         TotalClaimAmount = claimData.TotalClaimAmount,
                         AddNotes = claimData.AddNotes,
+                        ClaimStatus = "Pending" // Set default status to Pending
                     };
 
                     // Store file names
@@ -122,8 +149,5 @@ namespace PROG6216_CMCS_POE_.Controllers
             }
             return RedirectToAction("Index");
         }
-
-
-
     }
 }

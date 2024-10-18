@@ -23,8 +23,6 @@ else if (!string.IsNullOrWhiteSpace(@errorMessage))
     </div>
 }
 
-<a asp-action="SubmitClaim" asp-controller="Claim" class="btn btn-primary mb-3">Submit a Claim</a>
-
 
 
 <table class="table table-responsive table-hover table-bordered">
@@ -37,7 +35,7 @@ else if (!string.IsNullOrWhiteSpace(@errorMessage))
             <th>Hourly rate</th>
             <th>Total Claim Amount</th>
             <!--th>Additional Notes<th-->
-            <th>Supporting Documents</th>
+            <!--th>Supporting Documents</th-->
             <th>Claim Status</th>
             <th>Action</th>
         </tr>
@@ -51,11 +49,18 @@ else if (!string.IsNullOrWhiteSpace(@errorMessage))
                     <!--td class="text-center">@claim.ClaimID</td-->
                     <td class="text-center">@claim.LecturerID</td>
                     <!--td class="text-center">@claim.SubmissionDate.ToString("dd/MM/yyyy")</td-->
-                    <td class="text-center">@claim.HoursWorked</td>
-                    <td class="text-end">@claim.HourlyRate</td>
-                    <td class="text-end">@claim.TotalClaimAmount</td>
+                    <td class="text-center">@claim.HoursWorked hrs</td>
+
+                    <td class="text-end">
+                        <span style="float:left;">R</span>
+                        <span style="float:right;">@claim.HourlyRate</span>
+                    </td>
+                    <td class="text-end">
+                        <span style="float:left;">R</span>
+                        <span style="float:right;">@claim.TotalClaimAmount</span>
+                    </td>
                     <!--td>@claim.AddNotes</td-->
-                    <td>
+                    <!--td>
                         @if (!string.IsNullOrEmpty(claim.DocumentNames))
                         {
                             var documentNames = claim.DocumentNames.Split(", ");
@@ -70,15 +75,21 @@ else if (!string.IsNullOrWhiteSpace(@errorMessage))
                         {
                             <span>No documents uploaded</span>
                         }
+                    </td-->
+                    <td class="text-center">
+                        <span class="badge
+                                @(claim.ClaimStatus == "Pending" ? "bg-warning" :
+                                  claim.ClaimStatus == "Approved" ? "bg-success" : "bg-danger")">
+                            @claim.ClaimStatus
+                        </span>
                     </td>
-                    <td class="text-center">@claim.ClaimStatus</td>
                     <td>
                         <div class="btn-group btn-group-sm">
                             <!-- View Button triggers the modal -->
                             <button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#viewClaimModal"
                                     onclick="populateModal(@claim.ClaimID, '@claim.LecturerID', '@claim.SubmissionDate.ToString("dd/MM/yyyy")',
                                                           @claim.HoursWorked, @claim.HourlyRate, @claim.TotalClaimAmount, '@claim.AddNotes',
-                                                          '@claim.DocumentNames')">
+                                                          '@claim.DocumentNames', '@claim.ClaimStatus')">
                                 View
                             </button>
                             <a asp-controller="Claim" asp-action="Approve" asp-route-id="@claim.ClaimID" class="btn btn-success mx-1">Approve</a>
@@ -91,7 +102,7 @@ else if (!string.IsNullOrWhiteSpace(@errorMessage))
         else
         {
             <tr>
-                <td colspan="9">
+                <td colspan="6">
                     <div>No claims to display at the moment. Submit one to see it appear</div>
                 </td>
             </tr>
@@ -117,7 +128,9 @@ else if (!string.IsNullOrWhiteSpace(@errorMessage))
                 <p><strong>Total Claim Amount:</strong> <span id="modalTotalClaimAmount"></span></p>
                 <p><strong>Additional Notes:</strong> <span id="modalAddNotes"></span></p>
                 <p><strong>Supporting Documents:</strong></p>
+
                 <ul id="modalDocumentNames"></ul> <!-- List for supporting documents -->
+                <p><strong>Claim Status</strong> <span id="modalClaimStatus"></span></p>
             </div>
             <div class="modal-footer">
                 <a id="approveButton" asp-controller="Claim" asp-action="Approve" class="btn btn-success">Approve</a>
