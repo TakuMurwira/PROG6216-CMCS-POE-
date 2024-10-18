@@ -112,10 +112,7 @@ This guide provides a comprehensive overview of how to navigate the website, sub
 ### **REFERENCES:**
 https://learn.microsoft.com/en-us/ef/core/
 https://youtu.be/gNvuZTg0H1k?si=9c2l-a-wZ1GZed8T
-OpenAI.2024.Chat-GPT(Version3.5).[Large language mode]. available at: 
-https://chatgpt.com/.
+OpenAI.2024.Chat-GPT(Version3.5).[Large language mode]. available at: https://chatgpt.com/.
 Colour scheme: https://coolors.co/
-W3Schools (2022). HTML Tutorial. [online] W3schools.com. Available at:
-https://www.w3schools.com/html/default.asp [Accessed 9 Sep. 2024].
-w3schools (2020). W3.CSS Home. [online] W3schools.com. Available at:
-https://www.w3schools.com/w3css/default.asp [Accessed 9 Sep. 2024]
+W3Schools (2022). HTML Tutorial. [online] W3schools.com. Available at:https://www.w3schools.com/html/default.asp [Accessed 9 Sep. 2024].
+w3schools (2020). W3.CSS Home. [online] W3schools.com. Available at:https://www.w3schools.com/w3css/default.asp [Accessed 9 Sep. 2024]
