@@ -49,15 +49,16 @@ setTimeout(function () {
     $('.alert').alert('close');
 }, 5000);
 
-function populateModal(claimID, lecturerID, submissionDate, hoursWorked, hourlyRate, totalClaimAmount, addNotes, documentNames) {
-    // Populate modal fields
-    document.getElementById('modalClaimID').textContent = claimID;
-    document.getElementById('modalLecturerID').textContent = lecturerID;
-    document.getElementById('modalSubmissionDate').textContent = submissionDate;
-    document.getElementById('modalHoursWorked').textContent = hoursWorked;
-    document.getElementById('modalHourlyRate').textContent = hourlyRate;
-    document.getElementById('modalTotalClaimAmount').textContent = totalClaimAmount;
-    document.getElementById('modalAddNotes').textContent = addNotes;
+function populateModal(claimID, lecturerID, submissionDate, hoursWorked, hourlyRate, totalClaimAmount, addNotes, documentNames, claimStatus) {
+    document.getElementById("modalClaimID").textContent = claimID;
+    document.getElementById("modalLecturerID").textContent = lecturerID;
+    document.getElementById("modalSubmissionDate").textContent = submissionDate;
+    document.getElementById("modalHoursWorked").textContent = hoursWorked;
+    document.getElementById("modalHourlyRate").textContent = hourlyRate;
+    document.getElementById("modalTotalClaimAmount").textContent = totalClaimAmount;
+    document.getElementById("modalAddNotes").textContent = addNotes;
+
+
 
     // Clear the document names list
     var documentList = document.getElementById('modalDocumentNames');
@@ -74,7 +75,7 @@ function populateModal(claimID, lecturerID, submissionDate, hoursWorked, hourlyR
         li.textContent = 'No documents uploaded';
         documentList.appendChild(li);
     }
-
+    document.getElementById("modalClaimStatus").textContent = claimStatus;
     // Set approve/reject button URLs
     document.getElementById('approveButton').setAttribute('href', '/Claim/Approve/' + claimID);
     document.getElementById('rejectButton').setAttribute('href', '/Claim/Reject/' + claimID);
