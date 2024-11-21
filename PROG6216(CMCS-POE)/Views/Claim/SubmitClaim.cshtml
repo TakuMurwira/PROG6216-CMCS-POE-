@@ -17,27 +17,28 @@
 
 <form action="SubmitClaim" method="post" enctype="multipart/form-data" id="claimForm">
     <div class="mb-3">
-        <label class="form-label">Lecturer ID</label>
+        <label class="form-label"><strong>Lecturer ID</strong></label>
         <input type="number" class="form-control" asp-for="LecturerID" />
         <span asp-validation-for="LecturerID" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label class="form-label">Claim Submission Date</label>
+        <label class="form-label"><strong>Claim Submission Date</strong></label>
         <input type="date" class="form-control" asp-for="SubmissionDate" />
         <span asp-validation-for="SubmissionDate" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label class="form-label">Hours Worked</label>
+        <label class="form-label"><strong>Hours Worked</strong></label>
         <input type="number" class="form-control" asp-for="HoursWorked" id="HoursWorked" oninput="calculateTotalClaim()" />
         <span asp-validation-for="HoursWorked" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label class="form-label">Hourly Rate</label>
+        <label class="form-label">
+            <strong>Hourly Rate</strong></label>
         <input type="number" class="form-control" asp-for="HourlyRate" id="HourlyRate" oninput="calculateTotalClaim()" />
         <span asp-validation-for="HourlyRate" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label class="form-label">Total Claim Amount</label>
+        <label class="form-label"><strong>Total Claim Amount</strong></label>
         <div class="input-group">
             <span class="input-group-text">R</span>
             <input type="number" class="form-control" id="TotalClaimAmountDisplay" readonly />
@@ -47,17 +48,17 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Additional Notes</label>
+        <label class="form-label"><strong>Additional Notes</strong></label>
         <input type="text" class="form-control" asp-for="AddNotes" />
         <span asp-validation-for="AddNotes" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label class="form-label">Upload Supporting Documents</label>
+        <label class="form-label"><strong>Upload Supporting Documents</strong></label>
         <input type="file" accept=".docx,.pdf" class="form-control" asp-for="Document" id="Document" multiple onchange="validateFiles()" />
         <span asp-validation-for="Document" class="text-danger"></span>
     </div>
     <div class="d-grid">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary"><strong>Submit</strong></button>
     </div>
 </form>
 
