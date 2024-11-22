@@ -62,6 +62,7 @@ namespace PROG6216_CMCS_POE_.Controllers
                 if (roleAssignResult.Succeeded)
                 {
                     return RedirectToAction("Login");
+
                 }
 
                 // Log errors during role assignment
