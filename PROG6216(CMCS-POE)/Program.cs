@@ -111,6 +111,7 @@ namespace PROG6216_CMCS_POE_
                     UserName = username,
                     Email = email,
                     EmailConfirmed = true
+
                 };
 
                 var result = await userManager.CreateAsync(newUser, password);
