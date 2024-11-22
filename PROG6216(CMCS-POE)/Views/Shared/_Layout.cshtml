@@ -28,16 +28,47 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Claim" asp-action="SubmitClaim">Submit Claim</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Claim" asp-action="Index">Coordinator Dash</a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Claim" asp-action="LecturerClaims">Lecturer Claim</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Admin") || User.IsInRole("Coordinator"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Claim" asp-action="Index">All Claims</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Claim" asp-action="Dashboard">Dashboard</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Lecturer"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Claim" asp-action="SubmitClaim">Submit Claims</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Claim" asp-action="LecturerClaims">My Claims</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("HR"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Claim" asp-action="Index">HR Dashboard</a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
+                                    <button type="submit" class="btn btn-link text-dark">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -46,6 +77,9 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            <!--form asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
+                <button type="submit" class="btn btn-link text-dark">Logout</button>
+            </!--form-->
         </main>
     </div>
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PROG6216_CMCS_POE_.DataAccesLayer;
 using PROG6216_CMCS_POE_.Models;
 using PROG6216_CMCS_POE_.Models.DBEntities;
@@ -7,6 +8,7 @@ using System.Linq;
 
 namespace PROG6216_CMCS_POE_.Controllers
 {
+    [Authorize]
     public class ClaimController : Controller
     {
         private readonly ClaimsDbContext _context;
@@ -149,7 +151,7 @@ namespace PROG6216_CMCS_POE_.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin,Coordinator")]
         public IActionResult Approve(int id)
         {
             var claim = _context.Claims.FirstOrDefault(c => c.ClaimID == id);

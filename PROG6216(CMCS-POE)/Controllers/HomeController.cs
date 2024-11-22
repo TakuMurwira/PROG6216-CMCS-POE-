@@ -15,6 +15,15 @@ namespace PROG6216_CMCS_POE_.Controllers
 
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.Message = $"Welcome, {User.Identity.Name}!";
+            }
+            else
+            {
+                ViewBag.Message = "Please log in to access the site.";
+            }
+
             return View();
         }
 
